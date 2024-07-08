@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net461;net8.0</TargetFrameworks>
+		<AssemblyVersion>3.0.22.1013</AssemblyVersion>
+		<FileVersion>3.0.22.1013</FileVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="FtpActivity.cs" />
+	  <Compile Remove="FtpType.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FluentFTP" Version="42.0.0" />
+		<PackageReference Include="SSH.NET" Version="2020.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\litsdk\litsdk.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+		<Reference Include="System.Windows.Forms" />
+	</ItemGroup>
+
+</Project>

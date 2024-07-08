@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net461;net8.0</TargetFrameworks>
+    <ApplicationIcon />
+    <StartupObject />
+    <FileVersion>3.1.23.505</FileVersion>
+    <AssemblyVersion>3.1.23.505</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.ClearScript.Core" Version="7.1.5" />
+    <PackageReference Include="Microsoft.ClearScript.V8" Version="7.1.5" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.1.5" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.1.5" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+    <PackageReference Include="Microsoft.ClearScript" Version="7.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ClearScript.Core" Version="7.3.4" />
+    <PackageReference Include="Microsoft.ClearScript.V8" Version="7.3.4" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.linux-x64" Version="7.3.4" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\litsdk\litsdk.csproj" />
+    <Compile Update="V8EngineActivity.cs" />
+  </ItemGroup>
+
+</Project>
