@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net461</TargetFrameworks>
+		<AssemblyVersion>3.0.23.317</AssemblyVersion>
+		<FileVersion>3.0.23.317</FileVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net461'">
+		<Reference Include="System.Windows.Forms" />
+		<Reference Include="System.Web" />
+	</ItemGroup>
+
+</Project>
