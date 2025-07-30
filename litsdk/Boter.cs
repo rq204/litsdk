@@ -22,9 +22,9 @@ namespace litsdk
         public int JobId { get; set; }
 
         /// <summary>
-        /// 流程Id
+        /// 流程文件路径
         /// </summary>
-        public int ProjectId { get; set; }
+        public string Project { get; set; }
 
         /// <summary>
         /// WebSocket端口，0为不启用
@@ -37,13 +37,15 @@ namespace litsdk
         public string Key { get; set; }
 
         /// <summary>
-        /// 启动时间，方便判断超时
+        /// 启动时间，方便判断超时，管理器用
         /// </summary>
+        [Newtonsoft.Json.JsonIgnore]
         public DateTime TimeStart { get; private set; }
 
         /// <summary>
-        /// 结束时间
+        /// 结束时间，添加日志时使用，管理器用
         /// </summary>
+        [Newtonsoft.Json.JsonIgnore]
         public DateTime TimeEnd { get; private set; }
 
         /// <summary>

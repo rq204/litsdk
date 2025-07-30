@@ -158,19 +158,23 @@ namespace litsqldb
         public static ConnectActivity GetConnectActivity(string ConfigName, ActivityContext context)
         {
             List<Activity> acts = context.GetActivities(typeof(ConnectActivity).FullName);
-            ConnectActivity connect = null;
+            List<ConnectActivity> connects = new List<ConnectActivity>();
             foreach (Activity activity in acts)
             {
                 if (activity is ConnectActivity ca)
                 {
                     if (ca.ConfigName == ConfigName)
                     {
-                        connect = ca;
-                        break;
+                        connects.Add(ca);
                     }
                 }
             }
-            return connect;
+            if (connects.Count == 0) return null;
+
+            ConnectActivity find = connects.Find(x => x.fsql != null);
+            if (find != null) return find;
+            find = connects.First();
+            return find;
         }
 
         public static List<string> GetDesignConnectActivities()

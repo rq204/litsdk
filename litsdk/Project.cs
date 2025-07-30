@@ -78,7 +78,18 @@ namespace litsdk
         /// <returns></returns>
         public string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.None, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    return JsonConvert.SerializeObject(this, Formatting.None, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+                }
+                catch
+                {
+                    System.Threading.Thread.Sleep(200);
+                }
+            }
+            throw new Exception("序列化流程对象错误");
         }
 
         /// <summary>

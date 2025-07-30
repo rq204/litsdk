@@ -16,12 +16,10 @@ namespace litsdk
         /// 未启动
         /// </summary>
         UnStart = 0,
-
         /// <summary>
         /// 流程错误
         /// </summary>
-        ProjectErr=120,
-
+        ProjectErr = 120,
         /// <summary>
         /// 运行成功
         /// </summary>
@@ -34,11 +32,10 @@ namespace litsdk
         /// 试用到期
         /// </summary>
         TestEnd = 403,
-
         /// <summary>
         /// 运行器退出
         /// </summary>
-        RunnerExit=406,
+        RunnerExit = 406,
         /// <summary>
         /// 服务器错误
         /// </summary>
@@ -46,15 +43,19 @@ namespace litsdk
         /// <summary>
         /// 传参错误
         /// </summary>
-        CommendErr = 501,
+        ArgsErr = 501,
         /// <summary>
-        /// Boter参数错误
+        /// Boter解析失败
         /// </summary>
         BoterErr = 502,
         /// <summary>
-        /// Boter参数错误
+        ///Key错误
         /// </summary>
-        CodeErr = 503,
+        KeyErr = 503,
+        /// <summary>
+        /// 公司名不匹配
+        /// </summary>
+        LicErr = 504,
         /// <summary>
         /// 未知错误
         /// </summary>

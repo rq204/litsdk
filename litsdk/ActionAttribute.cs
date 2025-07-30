@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace litsdk
 {
@@ -54,9 +55,9 @@ namespace litsdk
         public string Description { get; set; }
 
         /// <summary>
-        /// 配置提示，如 对字符 {a} 使用正则 {b} 提取数据并保存至 {c}
+        /// 配置请求
         /// </summary>
-        public string Summary { get; set; }
+        public string Requirement { get; set; }
 
         /// <summary>
         /// 关联的组件全名

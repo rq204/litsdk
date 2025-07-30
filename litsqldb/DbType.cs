@@ -54,10 +54,12 @@ namespace litsqldb
         ////
         //// 摘要:
         ////     北京人大金仓信息技术股份有限公司，基于 Odbc 的实现
+        ///Kdbndp.dll
         //OdbcKingbaseES = 13,
         ////
         //// 摘要:
         ////     天津神舟通用数据技术有限公司，基于 System.Data.OscarClient.dll 的实现
+        ///Mono.Security.dll System.Data.OscarClient.dll
         [Description("神通")]
         ShenTong = 14,
         ////

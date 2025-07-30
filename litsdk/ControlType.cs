@@ -113,10 +113,13 @@ namespace litsdk
         Color = 18,
 
         /// <summary>
+        /// 手机选择
+        /// </summary>
+        PhoneSelect = 30,
+
+        /// <summary>
         /// 用户自定义界面
         /// </summary>
         UserUI = 66,
-
-
     }
 }

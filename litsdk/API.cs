@@ -67,6 +67,11 @@ namespace litsdk
         /// </summary>
         public static Action OnExit;
 
+        /// <summary>
+        /// 获取所有手机配置
+        /// </summary>
+        public static Func<List<PhoneConfig>> GetPhoneConfigs;
+
 #if NET461
         /// <summary>
         /// 设计器或是winform主窗口
@@ -77,6 +82,13 @@ namespace litsdk
         /// 添加新的tabpage
         /// </summary>
         public static Action<object> AddTabPage;
+
+        ///// <summary>
+        ///// 设置手机UI用的，分别要传入一个获取xml和图片的方法
+        ///// </summary>
+        //public static Func<string> GetPhoneXml;
+        //public static Func<System.Drawing.Image> GetPhoneImage;
+        //public static Func<string,List<PhoneSelector>,List<PhoneNode>> GetPhoneNodes;
 #endif
     }
 }

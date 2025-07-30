@@ -22,24 +22,19 @@ namespace litsdk
         string Description { get; }
 
         /// <summary>
-        /// 必需字符变量名
+        /// 需要的输入参数
         /// </summary>
-        List<string> RequiredStrs { get; }
+        List<litsdk.Variable> InputVars { get; }
 
         /// <summary>
-        /// 必需数字变量名
+        /// 需要的输出参数
         /// </summary>
-        List<string> RequiredInts { get; }
+        List<litsdk.Variable> OutputVars { get; }
 
         /// <summary>
         /// 要求内置浏览器
         /// </summary>
         bool RequiredEdge { get; }
-
-        /// <summary>
-        /// 为否则不显示配置界面
-        /// </summary>
-        bool JsonSetting { get; }
 
         /// <summary>
         /// 引用的文件
@@ -49,6 +44,6 @@ namespace litsdk
         /// <summary>
         /// 加载执行的
         /// </summary>
-        void RunApp(string AppConfigJson, byte[] IconBytes, string HelpStr, string JsonSetting);
+        void RunApp(string AppConfigJson, byte[] IconBytes, string HelpStr);
     }
 }

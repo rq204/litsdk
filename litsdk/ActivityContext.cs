@@ -36,7 +36,7 @@ namespace litsdk
         /// </summary>
         public void ThrowIfCancellationRequested()
         {
-            this.GetCancellationTokenSource().Token.ThrowIfCancellationRequested();
+            this.GetCancellationTokenSource()?.Token.ThrowIfCancellationRequested();
         }
 
         /// <summary>

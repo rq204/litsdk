@@ -15,7 +15,7 @@ namespace litv8js
         /// <summary>
         /// 要执行的js
         /// </summary>
-        [litsdk.Argument(Name = "Js代码", ControlType = ControlType.CodeArea, Order = 1, Description = "使用v8引擎进行js计算，输出日志为 context.WriteLog(\"日志内容\")，\r\n获取字符变量为 context.GetStr(\"变量名\")，获取列表变量为 context.GetList(\"变量名\")，\r\n获取数字变量为 context.GetInt(\"变量名\")，设置字符变量为 context.SetVarStr(\"变量名\",\"变量值\") ，\r\n设置列表变量为 context.SetVarList(\"变量名\",列表值)，设置数字变量为 context.SetVarInt(\"变量名\",123) \r\n浏览器操作请使用浏览器分组下的执行Js代码")]
+        [litsdk.Argument(Name = "Js代码", ControlType = ControlType.CodeArea, Order = 1, Description = "使用v8引擎进行js计算，输出日志为 context.WriteLog(\"日志内容\")，\r\n获取字符变量为 context.GetStr(\"变量名\")，获取列表变量为var list=context.GetList(\"变量名\")然后var arr=Array.from(list)再操作arr即可，\r\n获取数字变量为 context.GetInt(\"变量名\")，设置字符变量为 context.SetVarStr(\"变量名\",\"变量值\") ，\r\n设置列表变量为 context.SetVarList(\"变量名\",列表值)，设置数字变量为 context.SetVarInt(\"变量名\",123) \r\n浏览器操作请使用浏览器分组下的执行Js代码")]
         public string JsCode { get; set; }
 
         public override void Execute(ActivityContext context)

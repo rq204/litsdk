@@ -19,105 +19,125 @@ namespace litsqldb
                 if (dBActivity.SaveResult2Var)
                 {
                     DataSet ds = new DataSet();
+                    ds = _fsql.Ado.ExecuteDataSet(mksql);
 
-                    try
+                    if (dBActivity.SaveMultStrVar)
                     {
-                        ds = _fsql.Ado.ExecuteDataSet(mksql);
-                    }
-                    catch
-                    {
-                        System.Threading.Thread.Sleep(1000);
-                        ds = _fsql.Ado.ExecuteDataSet(mksql);
-                    }
-
-                    if (context.ContainsStr(dBActivity.SaveVarName))
-                    {
+                        foreach (string name in dBActivity.SaveVarNames)
+                        {
+                            context.Clear(name);
+                        }
                         if (ds.Tables[0].Rows.Count > 0)
                         {
-                            object first = ds.Tables[0].Rows[0][0];
-                            string restr = first == DBNull.Value ? "" : first.ToString();
-                            context.SetVarStr(dBActivity.SaveVarName, restr);
-                            msg = $"获取到结果长度{restr.Length}并存入字符变量{dBActivity.SaveVarName}";
-                        }
-                        else
-                        {
-                            context.SetVarStr(dBActivity.SaveVarName, "");
-                            msg = $"查询到0例数据并设置字符变量{dBActivity.SaveVarName}为空";
-                        }
-                    }
-                    else if (context.ContainsList(dBActivity.SaveVarName))
-                    {
-                        List<string> ls = new List<string>();
-                        if (dBActivity.NotClearVar) ls = context.GetList(dBActivity.SaveVarName);
-
-                        foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
-                        {
-                            string re2 = dr[0] == DBNull.Value ? "" : dr[0].ToString();
-                            ls.Add(re2);
-                        }
-                        context.SetVarList(dBActivity.SaveVarName, ls);
-                        msg = $"获取到记录数{ds.Tables[0].Rows.Count}并存入列表变量{dBActivity.SaveVarName}";
-                    }
-                    else if (context.ContainsInt(dBActivity.SaveVarName))
-                    {
-                        if (ds.Tables[0].Rows.Count > 0)
-                        {
-                            object first2 = ds.Tables[0].Rows[0][0];
-                            int restr2 = first2 == DBNull.Value ? 0 : Convert.ToInt32(first2);
-                            context.SetVarInt(dBActivity.SaveVarName, restr2);
-                            msg = $"获取到数字变量{restr2}并存入数字变量{dBActivity.SaveVarName}";
-                        }
-                        else
-                        {
-                            context.SetVarInt(dBActivity.SaveVarName, 0);
-                            msg = $"查询到0例数据并设置数字变量{dBActivity.SaveVarName}为0";
-                        }
-                    }
-                    else if (context.ContainsTable(dBActivity.SaveVarName))
-                    {
-                        DataTable dataTable = new DataTable();
-                        if (dBActivity.NotClearVar) dataTable = context.GetTable(dBActivity.SaveVarName);
-                        if (dataTable == null) dataTable = new DataTable();
-                        if (dataTable.Columns.Count == 0) context.Variables.Find((f) => f.Name == dBActivity.SaveVarName).TableValue = ds.Tables[0];
-                        else
-                        {
-                            foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                            foreach (System.Data.DataColumn dc in ds.Tables[0].Columns)
                             {
-                                foreach (System.Data.DataColumn dc in ds.Tables[0].Columns)
+                                if (dBActivity.SaveVarNames.Contains(dc.ColumnName))
                                 {
-                                    if (!dataTable.Columns.Contains(dc.ColumnName))
+                                    object odata = ds.Tables[0].Rows[0][dc.ColumnName];
+                                    string restr = odata == DBNull.Value ? "" : odata.ToString();
+                                    if (context.ContainsStr(dc.ColumnName))
                                     {
-                                        dataTable.Columns.Add(dc.ColumnName);
+                                        context.SetVarStr(dc.ColumnName, restr);
+                                    }
+                                    else if (context.ContainsInt(dc.ColumnName))
+                                    {
+                                        int it = 0;
+                                        if (int.TryParse(restr, out it))
+                                        {
+                                            context.SetVarInt(dc.ColumnName, it);
+                                        }
+                                        else
+                                        {
+                                            context.WriteLog($"{dc.ColumnName}转换{restr}为数字时出错置为0");
+                                        }
                                     }
                                 }
-
-                                System.Data.DataRow add = dataTable.NewRow();
-                                foreach (System.Data.DataColumn dc in ds.Tables[0].Columns)
-                                {
-                                    if (dataTable.Columns.Contains(dc.ColumnName)) add[dc.ColumnName] = dr[dc.ColumnName];
-                                }
-                                dataTable.Rows.Add(add);
+                            }
+                            msg = $"获取到结果并存入变量{string.Join(",", dBActivity.SaveVarNames.ToArray())}";
+                        }
+                        else
+                        {
+                            msg = $"查询到结果记录数为空，置空变量{string.Join(",", dBActivity.SaveVarNames.ToArray())}";
+                        }
+                    }
+                    else
+                    {
+                        if (context.ContainsStr(dBActivity.SaveVarName))
+                        {
+                            if (ds.Tables[0].Rows.Count > 0)
+                            {
+                                object first = ds.Tables[0].Rows[0][0];
+                                string restr = first == DBNull.Value ? "" : first.ToString();
+                                context.SetVarStr(dBActivity.SaveVarName, restr);
+                                msg = $"获取到结果长度{restr.Length}并存入字符变量{dBActivity.SaveVarName}";
+                            }
+                            else
+                            {
+                                context.SetVarStr(dBActivity.SaveVarName, "");
+                                msg = $"查询到0例数据并设置字符变量{dBActivity.SaveVarName}为空";
                             }
                         }
-                        msg = $"获取到表格数据{ds.Tables[0].Rows.Count}并存入表格变量{dBActivity.SaveVarName}";
+                        else if (context.ContainsList(dBActivity.SaveVarName))
+                        {
+                            List<string> ls = new List<string>();
+                            if (dBActivity.NotClearVar) ls = context.GetList(dBActivity.SaveVarName);
+
+                            foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                            {
+                                string re2 = dr[0] == DBNull.Value ? "" : dr[0].ToString();
+                                ls.Add(re2);
+                            }
+                            context.SetVarList(dBActivity.SaveVarName, ls);
+                            msg = $"获取到记录数{ds.Tables[0].Rows.Count}并存入列表变量{dBActivity.SaveVarName}";
+                        }
+                        else if (context.ContainsInt(dBActivity.SaveVarName))
+                        {
+                            if (ds.Tables[0].Rows.Count > 0)
+                            {
+                                object first2 = ds.Tables[0].Rows[0][0];
+                                int restr2 = first2 == DBNull.Value ? 0 : Convert.ToInt32(first2);
+                                context.SetVarInt(dBActivity.SaveVarName, restr2);
+                                msg = $"获取到数字变量{restr2}并存入数字变量{dBActivity.SaveVarName}";
+                            }
+                            else
+                            {
+                                context.SetVarInt(dBActivity.SaveVarName, 0);
+                                msg = $"查询到0例数据并设置数字变量{dBActivity.SaveVarName}为0";
+                            }
+                        }
+                        else if (context.ContainsTable(dBActivity.SaveVarName))
+                        {
+                            DataTable dataTable = new DataTable();
+                            if (dBActivity.NotClearVar) dataTable = context.GetTable(dBActivity.SaveVarName);
+                            if (dataTable == null) dataTable = new DataTable();
+                            if (dataTable.Columns.Count == 0) context.Variables.Find((f) => f.Name == dBActivity.SaveVarName).TableValue = ds.Tables[0];
+                            else
+                            {
+                                foreach (System.Data.DataRow dr in ds.Tables[0].Rows)
+                                {
+                                    foreach (System.Data.DataColumn dc in ds.Tables[0].Columns)
+                                    {
+                                        if (!dataTable.Columns.Contains(dc.ColumnName))
+                                        {
+                                            dataTable.Columns.Add(dc.ColumnName);
+                                        }
+                                    }
+
+                                    System.Data.DataRow add = dataTable.NewRow();
+                                    foreach (System.Data.DataColumn dc in ds.Tables[0].Columns)
+                                    {
+                                        if (dataTable.Columns.Contains(dc.ColumnName)) add[dc.ColumnName] = dr[dc.ColumnName];
+                                    }
+                                    dataTable.Rows.Add(add);
+                                }
+                            }
+                            msg = $"获取到表格数据{ds.Tables[0].Rows.Count}并存入表格变量{dBActivity.SaveVarName}";
+                        }
                     }
                 }
                 else
                 {
-                    for (int err = 0; err < 3; err++)
-                    {
-                        try
-                        {
-                            _fsql.Ado.ExecuteNonQuery(mksql);
-
-                            break;
-                        }
-                        catch
-                        {
-                            if (err == 2) throw;
-                            System.Threading.Thread.Sleep(1000);
-                        }
-                    }
+                    _fsql.Ado.ExecuteNonQuery(mksql);
                     msg = $"成功执行Sql";
                 }
                 context.WriteLog(msg);
